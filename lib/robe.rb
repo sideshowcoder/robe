@@ -5,10 +5,10 @@ module Robe
   class << self
     attr_accessor :server
 
-    def start(port = 0)
+    def start(host = "0.0.0.0", port = 0)
       return running_string if @server
 
-      @server = Server.new(Sash.new, port)
+      @server = Server.new(Sash.new, host, port)
 
       ['INT', 'TERM'].each do |signal|
         trap(signal) { stop }
@@ -20,6 +20,7 @@ module Robe
         @server.start
       end
 
+      # TODO is something actually running here? I'm confused!
       @server.wait_for_it
 
       running_string
